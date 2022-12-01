@@ -14,6 +14,9 @@ box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.30);
 }
 
 @layer components {
+  .searchBtn{
+    @apply text-4xl mr-4 w-[50px] py-1 hover:border-b-[2px] hover:border-blue-500 cursor-pointer transition-all hover:text-blue-300
+  }
   .cBtn {
     @apply w-full bg-blue-400 text-white hover:text-blue-400 transition-all hover:bg-white font-bold rounded-lg p-2 my-2
   }
