@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  font-family: "Poppins", sans-serif;
+  background-color: rgb(241 245 249);
+}
+
+.cShadow{
+  -webkit-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.30);
+-moz-box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.30);
+box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.30);
+}
+
+@layer components {
+  .cBtn {
+    @apply w-full bg-blue-400 text-white hover:text-blue-400 transition-all hover:bg-white font-bold rounded-lg p-2 my-2
+  }
+}
