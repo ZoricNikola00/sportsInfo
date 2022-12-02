@@ -5,7 +5,7 @@ import {Request,Response} from 'express'
 
 export const getPosts=async(req:Request,res:Response)=>{
     const {page}=req.query
-    
+
     try{
         const limitPage=6
         const startIndex=(Number(page)-1)*limitPage
@@ -15,4 +15,14 @@ export const getPosts=async(req:Request,res:Response)=>{
     }catch(err){
         res.status(404).json(console.log(err))
     }
+}
+
+export const addPost=async(req:Request,res:Response)=>{
+    const data=req.body
+    const newData=new PostInfo({...data, createdAt:new Date().toISOString()})
+        
+    try{
+        await newData.save()
+        res.status(201).json(newData)
+    }catch(err){res.status(409).json(err)}
 }
