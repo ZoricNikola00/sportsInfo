@@ -20,4 +20,7 @@ box-shadow: 2px 2px 9px 0px rgba(0,0,0,0.30);
   .cBtn {
     @apply w-full bg-blue-400 text-white hover:text-blue-400 transition-all hover:bg-white font-bold rounded-lg p-2 my-2
   }
+  .cInput{
+    @apply w-full outline-none p-2 rounded-lg border-2 transition-all border-gray-300 hover:border-gray-600 my-2;
+  }
 }
