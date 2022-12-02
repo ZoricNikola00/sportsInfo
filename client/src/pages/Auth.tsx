@@ -1,5 +1,6 @@
-import {FaEye} from 'react-icons/fa'
+import {FaEye, FaGoogle} from 'react-icons/fa'
 import React, {useState,useEffect} from 'react'
+import {GoogleLogin} from 'react-google-login'
 
 const Auth = () => {
   const [signedUp,setSignedUp]=useState(false)
@@ -16,6 +17,13 @@ const Auth = () => {
   const change=(e:React.ChangeEvent<HTMLInputElement>)=>{
     const value=e.target.name;
     setFormData(p=>({...p,[value]:e.target.value}))
+  }
+
+  const googleSuccess=async()=>{
+
+  }
+  const googleFail=()=>{
+
   }
   return (
     <div className='w-[90%] md:w-[80%] mx-auto'>
@@ -50,7 +58,15 @@ const Auth = () => {
             </div>
           </>
         }
-        
+        <button className='cBtn'>{signedUp?'Sign In':'Sign Up'}</button>
+        <GoogleLogin
+          clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+          render={(props)=><button onClick={props.onClick} disabled={props.disabled} className='cBtn flex items-center justify-center cursor-pointer'><FaGoogle className='mr-1'/>Sign In With Google</button>}
+          onSuccess={googleSuccess}
+          onFailure={googleFail}
+          cookiePolicy='single_host_origin'
+        />
+          <p className='w-full text-sm text-gray-600'>{!signedUp? 'Already have an account?':"Don't have an account?"}<span onClick={_=>setSignedUp(p=>!p)} className='ml-2 cursor-pointer hover:text-gray-400 text-base'>{signedUp?'Sign In':'Sign Up'}</span></p>
       </form>
     </div>
   )
