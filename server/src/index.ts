@@ -12,7 +12,7 @@ app.use(bodyParser.json({limit:'30mb'}))
 app.use(bodyParser.urlencoded({limit:'30mb',extended:true}))
 app.use(cors())
 
-app.use('/', postRoutes)
+app.use('/posts', postRoutes)
 
 const mongoURI=process.env.MONGO_DB_CODE || '';
 const PORT=process.env.PORT || 5000;
