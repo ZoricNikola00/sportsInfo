@@ -6,7 +6,7 @@ import FileBase from 'react-file-base64'
 
 const Form = () => {
   const [formInfo,setFormInfo]=useState({title:'', info:'', tags:[],file:''})
-  const {setFormComponent}=useGlobalContext()
+  const {setFormComponent,addPost}=useGlobalContext()
   const [pTags,setpTags]=useState('')
 
   const user=true
@@ -18,6 +18,7 @@ const Form = () => {
   }
   const handleSubmit=(e:React.FormEvent)=>{
         e.preventDefault()
+        addPost(formInfo)
   }
   if(!user){
     return <div className='bg-slate-100 rounded mx-auto text-center my-4 cShadow p-4'>
