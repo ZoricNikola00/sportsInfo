@@ -33,15 +33,19 @@ type initialStateType={
 }
 const AppContext=createContext<{
     state:initialStateType,
-    getPosts:(p:number|string)=>Promise<void>
+    getPosts:(p:number|string)=>Promise<void>,
+    formComponent:boolean,
+    setFormComponent:(p:boolean)=>void
 }>({
     state:initialState,
-    getPosts:async()=>{}
+    getPosts:async()=>{},
+    formComponent:false,
+    setFormComponent:()=>{}
 })
 
 export const AppProvider:FC<any>=props=>{
     const [state,dispatch]=useReducer(reducer,initialState)
-
+    const [formComponent,setFormComponent]=useState(false)
     const getPosts=async(currentPage:number|string)=>{
         try{
             dispatch({type:'START_LOADING'})
@@ -51,7 +55,7 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err);
         }
     }
-    return <AppContext.Provider value={{state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
