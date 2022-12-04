@@ -57,6 +57,9 @@ const AppContext=createContext<{
     searchPost:(d:SearchData)=>Promise<void>,
     getPostsOfCreator:(c:string|undefined)=>Promise<void>,
     getPost:(i:string|undefined)=>Promise<void>,
+    likePost:(i:string|undefined,s:boolean)=>Promise<void>,
+    deletePost:(i:string|undefined)=>Promise<void>,
+
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -71,6 +74,8 @@ const AppContext=createContext<{
     searchPost:async()=>{},
     getPostsOfCreator:async()=>{},
     getPost:async()=>{},
+    likePost:async()=>{},
+    deletePost:async()=>{},
 
 })
 
@@ -126,6 +131,20 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err)
         }
     }
+    const likePost=async(id:string|undefined,single:boolean)=>{
+        try{
+            const {data}=await api.likePost(id)
+            dispatch({type:'LIKE',payload:data,single:single})
+        }catch(err){console.log(err);
+        }
+    }
+    const deletePost=async(id:string|undefined)=>{
+        try{
+            await api.deletePost(id)
+            dispatch({type:'DELETE',payload:id})
+        }catch(err){console.log(err);
+        }
+    }
     const signIn=async(userData:userData)=>{
         try{
             const {data}=await api.signIn(userData)
@@ -155,7 +174,7 @@ export const AppProvider:FC<any>=props=>{
     const signOut=()=>{
         dispatch({type:'SIGN_OUT'})
     }
-    return <AppContext.Provider value={{getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{likePost,deletePost,getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
