@@ -5,6 +5,7 @@ import { FaEllipsisH, FaRegThumbsUp, FaThumbsUp } from 'react-icons/fa'
 import moment from 'moment'
 
 const Post = ({_id,name,createdAt,file,info,likes,tags,title}:postDataType) => {
+    const user=JSON.parse(localStorage.getItem('profile') ||'{}')
     const userLikedPost=false
   return (
     <div className='w-[300px] h-[430px] m-4 pb-2 rounded-lg overflow-hidden bg-slate-100 cShadow'>
@@ -18,7 +19,7 @@ const Post = ({_id,name,createdAt,file,info,likes,tags,title}:postDataType) => {
             <div className='absolute bg-black/60 top-0 left-0 w-full h-full'></div>
         </div>
         <div className='p-3 h-[50%] flex justify-between flex-col'>
-            <div className='flex flex-wrap text-xs text-gray-700'>{tags?.map((tag,i)=><p className='mx-[1px] hover:text-gray-500 cursor-pointer' key={i}><span className='text-sm'>#</span>{tag}</p>)}</div>
+            <div className='flex flex-wrap text-xs text-gray-700'>{tags?.map((tag,i)=><Link to={`/tags/${tag}`} className='mx-[1px] hover:text-gray-500 cursor-pointer' key={i}><span className='text-sm'>#</span>{tag}</Link>)}</div>
             <h1 className='text-xl'>{title}</h1>
             <p className='text-gray-600 my-2'>{info.slice(0,60)}...</p>
             <div className='flex w-full text-md items-center justify-between'>
