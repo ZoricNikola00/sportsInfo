@@ -55,7 +55,7 @@ const AppContext=createContext<{
     googleSuccess:(r:any)=>Promise<void>,
     dispatch:any,
     searchPost:(d:SearchData)=>Promise<void>,
-
+    getPostsOfCreator:(c:string|undefined)=>Promise<void>,
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -67,7 +67,8 @@ const AppContext=createContext<{
     signOut:()=>{},
     googleSuccess:async()=>{},
     dispatch:()=>{},
-    searchPost:async()=>{}
+    searchPost:async()=>{},
+    getPostsOfCreator:async()=>{},
 })
 
 export const AppProvider:FC<any>=props=>{
@@ -84,7 +85,15 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err);
         }
     }
-
+    const getPostsOfCreator=async(creator:string|undefined)=>{
+        try{
+            dispatch({type:'START_LOADING'})
+            const {data}=await api.searchCreator(creator)
+            dispatch({type:"SEARCH", payload:data})
+            dispatch({type:"END_LOADING"})
+        }catch(err){console.log(err);
+        }
+    }
     const addPost=async(newData:postDataType)=>{
         try{
             dispatch({type:'START_LOADING'})
@@ -133,7 +142,7 @@ export const AppProvider:FC<any>=props=>{
     const signOut=()=>{
         dispatch({type:'SIGN_OUT'})
     }
-    return <AppContext.Provider value={{searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
