@@ -9,7 +9,7 @@ const Form = () => {
   const {setFormComponent,addPost}=useGlobalContext()
   const [pTags,setpTags]=useState('')
 
-  const user=true
+  const user=JSON.parse(localStorage.getItem('profile') || '{}') 
   const handleSpace=(e:React.KeyboardEvent):any=>{
     if(e.keyCode===32){
         setFormInfo((p:any)=>({...p,tags:[...p.tags,pTags]}))
@@ -18,7 +18,9 @@ const Form = () => {
   }
   const handleSubmit=(e:React.FormEvent)=>{
         e.preventDefault()
-        addPost(formInfo)
+        addPost({...formInfo,name:user?.result?.name,tags:formInfo.tags.map((x:any)=>x.trim())})
+        setFormInfo({title:'',info:'',tags:[],file:''})
+        setFormComponent(false);
   }
   if(!user){
     return <div className='bg-slate-100 rounded mx-auto text-center my-4 cShadow p-4'>
