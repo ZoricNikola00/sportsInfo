@@ -24,6 +24,13 @@ export type postDataType={
     auth?:any,
     creator?:string
 }
+export type userData={
+    firstName:string,
+    lastName:string,
+    password:string,
+    confirmPassword:string,
+    email:string
+}
 type initialStateType={
     posts:postDataType[],
     post:postDataType |null,
@@ -37,13 +44,16 @@ const AppContext=createContext<{
     formComponent:boolean,
     setFormComponent:(p:boolean)=>void,
     addPost:(d:postDataType)=>Promise<void>,
-
+    signIn:(d:userData)=>Promise<void>,
+    signUp:(d:userData)=>Promise<void>
 }>({
     state:initialState,
     getPosts:async()=>{},
     formComponent:false,
     setFormComponent:()=>{},
     addPost:async()=>{},
+    signIn:async()=>{},
+    signUp:async()=>{},
 
 })
 
@@ -71,7 +81,22 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err);
         }
     }
-    return <AppContext.Provider value={{addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    const signIn=async(userData:userData)=>{
+        try{
+            const {data}=await api.signIn(userData)
+            dispatch({type:"AUTH", payload:data})
+        }catch(err){console.log(err);
+        }
+    }
+    const signUp=async(userData:userData)=>{
+        try{
+            const {data}=await api.signUp(userData)
+            dispatch({type:"AUTH", payload:data})
+            
+        }catch(err){console.log(err);
+        }
+    }
+    return <AppContext.Provider value={{signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
