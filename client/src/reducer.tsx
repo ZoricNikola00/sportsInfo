@@ -15,5 +15,7 @@ export const reducer = (state:any,action:any)=>{
         case "SIGN_OUT":
             localStorage.clear()
             return {...state, auth:null}
+        case "SEARCH":
+            return {...state,posts:action.payload}
     }
 }
