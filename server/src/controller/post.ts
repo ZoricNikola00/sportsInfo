@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import PostInfo from "../models/postsModel.js";
 import {Request,Response} from 'express'
 
@@ -53,4 +53,22 @@ export const getPost=async(req:Request,res:Response)=>{
         res.status(200).json(singlePost)
     }catch(err){console.log(res.status(404).json({message:err}));
     }
+}
+
+export const likePost=async(req:Request,res:Response)=>{
+    const {id}=req.params
+    if(!req.userId)res.json({message:'Unauthenticated'})
+    if(!mongoose.Types.ObjectId.isValid(id)) res.status(404).send('No post with that ID')
+
+    const post = await PostInfo.findById(id)
+    let newLikes=post?.likes
+    
+    const index=newLikes?.findIndex((id)=>id===String(req.userId))
+    
+    index===-1 ? newLikes?.push(String(req.userId)):newLikes=newLikes?.filter(id=>id!==String(req.userId))
+    
+    console.log(post);
+    
+    const updatedPost=await PostInfo.findByIdAndUpdate(id,{likes:newLikes},{new:true})
+    res.json(updatedPost)
 }
