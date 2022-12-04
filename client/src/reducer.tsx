@@ -22,5 +22,7 @@ export const reducer = (state:any,action:any)=>{
             return {...state,posts:action.payload}
         case "LIKE":
             return {...state, posts:state.posts.map((post:postDataType)=>post._id===action.payload._id?action.payload:post), post:action.single?action.payload:state.post}
+        case "EDIT":
+            return {...state, posts:state.posts.map((post:postDataType)=>post._id===action.payload._id?action.payload:post)}
     }
 }
