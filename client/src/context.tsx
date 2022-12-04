@@ -1,6 +1,7 @@
 import { createContext,useContext,useReducer,useState,FC} from 'react'
 import { reducer } from './reducer'
 import * as api from './api/index'
+import { useNavigate } from 'react-router-dom'
 
 
 const initialState={
@@ -45,7 +46,9 @@ const AppContext=createContext<{
     setFormComponent:(p:boolean)=>void,
     addPost:(d:postDataType)=>Promise<void>,
     signIn:(d:userData)=>Promise<void>,
-    signUp:(d:userData)=>Promise<void>
+    signUp:(d:userData)=>Promise<void>,
+    signOut:()=>void,
+    googleSuccess:(r:any)=>Promise<void>,
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -54,12 +57,14 @@ const AppContext=createContext<{
     addPost:async()=>{},
     signIn:async()=>{},
     signUp:async()=>{},
-
+    signOut:()=>{},
+    googleSuccess:async()=>{},
 })
 
 export const AppProvider:FC<any>=props=>{
     const [state,dispatch]=useReducer(reducer,initialState)
     const [formComponent,setFormComponent]=useState(false)
+    const nav=useNavigate()
 
     const getPosts=async(currentPage:number|string)=>{
         try{
@@ -85,6 +90,7 @@ export const AppProvider:FC<any>=props=>{
         try{
             const {data}=await api.signIn(userData)
             dispatch({type:"AUTH", payload:data})
+            nav('/')
         }catch(err){console.log(err);
         }
     }
@@ -92,11 +98,24 @@ export const AppProvider:FC<any>=props=>{
         try{
             const {data}=await api.signUp(userData)
             dispatch({type:"AUTH", payload:data})
+            nav('/')
             
         }catch(err){console.log(err);
         }
     }
-    return <AppContext.Provider value={{signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    const googleSuccess=async(res:any)=>{
+        const result=res?.profileObj;
+        const token=res?.tokenId
+        try{
+          dispatch({type:'AUTH', payload:{token,result}})
+          nav('/')
+        }catch(err){console.log(err);
+        }
+      }
+    const signOut=()=>{
+        dispatch({type:'SIGN_OUT'})
+    }
+    return <AppContext.Provider value={{signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
