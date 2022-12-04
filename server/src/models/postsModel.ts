@@ -6,6 +6,7 @@ const Schema= new mongoose.Schema({
     info:String,
     tags:[String],
     file:String,
+    creator:String,
     likes:{
         type:[String],
         default:[]
