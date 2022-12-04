@@ -79,3 +79,11 @@ export const deletePost=async(req:Request,res:Response)=>{
     await PostInfo.findByIdAndDelete(id)
     res.json({message:'Successful delete!'})
 }
+
+export const editPost=async(req:Request,res:Response)=>{
+    const data=req.body
+    const {id}=req.params
+    if(!mongoose.Types.ObjectId.isValid(id)) res.status(404).send('No post with that ID')
+    const updatedPost=await PostInfo.findByIdAndUpdate(id,data,{new:true})
+    res.json(updatedPost)
+}
