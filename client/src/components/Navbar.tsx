@@ -6,7 +6,7 @@ import { useGlobalContext } from '../context'
 
 
 const Navbar = () => {
-    const {signOut}=useGlobalContext()
+    const {signOut,setFormComponent}=useGlobalContext()
     const [searchModal,setSearchModal]=useState(false)
     const [sidebar, setSidebar]=useState(false)
     const user=JSON.parse(localStorage.getItem('profile') ||'{}')
@@ -26,7 +26,7 @@ const Navbar = () => {
             </div>
         </div>
         <div>
-            <Link to='/'><h1 className='text-4xl'>SportsInfo</h1></Link>
+            <Link to='/' onClick={_=>setFormComponent(false)}><h1 className='text-4xl'>SportsInfo</h1></Link>
         </div>
         {user.token?
         <div className='hidden md:flex items-center h-full'>
