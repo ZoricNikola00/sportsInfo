@@ -6,7 +6,7 @@ import FileBase from 'react-file-base64'
 
 const Form = () => {
   const [formInfo,setFormInfo]=useState({title:'', info:'', tags:[],file:''})
-  const {setFormComponent,addPost}=useGlobalContext()
+  const {setFormComponent,addPost,editId,setEditId,state,editPost}=useGlobalContext()
   const [pTags,setpTags]=useState('')
 
   const user=JSON.parse(localStorage.getItem('profile') || '{}') 
@@ -15,13 +15,27 @@ const Form = () => {
         setFormInfo((p:any)=>({...p,tags:[...p.tags,pTags]}))
         setpTags('')
     }
-  }
+  }  
   const handleSubmit=(e:React.FormEvent)=>{
         e.preventDefault()
-        addPost({...formInfo,name:user?.result?.name,tags:formInfo.tags.map((x:any)=>x.trim())})
-        setFormInfo({title:'',info:'',tags:[],file:''})
-        setFormComponent(false);
+        if(editId.length>0){
+          editPost(editId,{...formInfo,name:user?.result?.name,tags:formInfo.tags.map((x:any)=>x.trim())})
+          setFormInfo({title:'',info:'',tags:[],file:''})
+          setFormComponent(false)
+          setEditId('')
+        }else{
+          addPost({...formInfo,name:user?.result?.name,tags:formInfo.tags.map((x:any)=>x.trim())})
+          setFormInfo({title:'',info:'',tags:[],file:''})
+          setFormComponent(false)
+        }
   }
+  useEffect(()=>{
+        
+    if(editId.length>0){
+      const newEdit:any=state.posts.find(x=>x._id===editId)
+      setFormInfo(newEdit)
+    }
+  },[editId])
   if(!user){
     return <div className='bg-slate-100 rounded mx-auto text-center my-4 cShadow p-4'>
         <h1 className='text-lg my-2'>Log In To Create a Info</h1>
