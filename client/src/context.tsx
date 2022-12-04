@@ -59,7 +59,9 @@ const AppContext=createContext<{
     getPost:(i:string|undefined)=>Promise<void>,
     likePost:(i:string|undefined,s:boolean)=>Promise<void>,
     deletePost:(i:string|undefined)=>Promise<void>,
-
+    editPost:(i:string|undefined, d:postDataType)=>Promise<void>,
+    editId:string,
+    setEditId:React.Dispatch<React.SetStateAction<(string)>>,
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -76,12 +78,15 @@ const AppContext=createContext<{
     getPost:async()=>{},
     likePost:async()=>{},
     deletePost:async()=>{},
-
+    editPost:async()=>{},
+    editId:'',
+    setEditId:()=>{},
 })
 
 export const AppProvider:FC<any>=props=>{
     const [state,dispatch]=useReducer(reducer,initialState)
     const [formComponent,setFormComponent]=useState(false)
+    const [editId,setEditId]=useState('')
     const nav=useNavigate()
 
     const getPosts=async(currentPage:number|string)=>{
@@ -145,6 +150,14 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err);
         }
     }
+    const editPost=async(id:string|undefined,editedData:postDataType)=>{
+        try{
+            const{data}=await api.editPost(id,editedData)
+            dispatch({type:"EDIT", payload:data})
+            setFormComponent(false)
+        }catch(err){console.log(err);
+        }
+    }
     const signIn=async(userData:userData)=>{
         try{
             const {data}=await api.signIn(userData)
@@ -174,7 +187,7 @@ export const AppProvider:FC<any>=props=>{
     const signOut=()=>{
         dispatch({type:'SIGN_OUT'})
     }
-    return <AppContext.Provider value={{likePost,deletePost,getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{editId,setEditId,editPost,likePost,deletePost,getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
