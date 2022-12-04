@@ -41,8 +41,8 @@ const DetailsPage = () => {
                     {userId===state.post?.creator && <FaTrash onClick={_=>setModalDelete(true)} className='text-red-500 cursor-pointer'/>}
                 </div>
             </div>
-            <CommentSection id={id} comments={state?.post?.comments}/>
         </div>
+        <CommentSection id={id} comments={state?.post?.comments}/>
     </div>
   )
 }
