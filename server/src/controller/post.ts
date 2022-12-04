@@ -19,8 +19,8 @@ export const getPosts=async(req:Request,res:Response)=>{
 
 export const addPost=async(req:Request,res:Response)=>{
     const data=req.body
-    const newData=new PostInfo({...data, createdAt:new Date().toISOString()})
-        
+    const newData=new PostInfo({...data, creator:req.userId,createdAt:new Date().toISOString()})
+
     try{
         await newData.save()
         res.status(201).json(newData)
