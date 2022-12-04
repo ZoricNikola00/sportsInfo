@@ -3,6 +3,7 @@ import {Routes, Route, Navigate} from 'react-router-dom'
 import Home from "./pages/Home"
 import Auth from "./pages/Auth"
 import Creator from "./pages/Creator"
+import Tags from "./pages/Tags"
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
             <Route path='/posts/search' element={<Home/>}/>
             <Route path="/signIn" element={<Auth/>}/>
             <Route path='/creator/:name' element={<Creator/>}/>
+            <Route path='/tags/:name' element={<Tags/>}/>
         </Routes>
     </>
   )
