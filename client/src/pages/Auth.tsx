@@ -1,16 +1,22 @@
 import {FaEye, FaGoogle} from 'react-icons/fa'
 import React, {useState,useEffect} from 'react'
 import {GoogleLogin} from 'react-google-login'
+import { useGlobalContext } from '../context'
 
 const Auth = () => {
-  const [signedUp,setSignedUp]=useState(false)
+  const [signedUp,setSignedUp]=useState(true)
+  const {signIn,signUp}=useGlobalContext()
   const [showPassword,setShowPassword]=useState(false)
   const [formData,setFormData]=useState({firstName:'', lastName:'', password:'', confirmPassword:'', email:''})
   const styleEye='absolute top-[50%] translate-y-[-50%] text-gray-300 cursor-pointer hover:text-gray-500 right-5'
 
   const handleSubmit=(e:React.FormEvent)=>{
     e.preventDefault()
-    console.log(formData);
+    if(signedUp){
+      signIn(formData)
+    }else{
+      signUp(formData)
+    }
     
   }
 
