@@ -10,7 +10,7 @@ const Pagination = ({page}:data) => {
     const {state,getPosts,dispatch}=useGlobalContext()
     const nav=useNavigate()
     const pages=[]
-    for(let i=1;i<=state.numberOfPages;i++){
+    for(let i=1;i<=state?.numberOfPages;i++){
         pages.push(i)
     }
     useEffect(()=>{

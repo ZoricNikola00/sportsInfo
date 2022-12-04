@@ -6,7 +6,7 @@ import { DotLoader } from 'react-spinners'
 const Posts = () => {
     const {state}=useGlobalContext()
 
-    if(state.loading){
+    if(state?.loading){
       return <DotLoader color='rgb(59 130 246)' className=' w-full mx-auto my-24'>LOADING!!!!</DotLoader>
      }
   return (
