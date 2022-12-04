@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import postRoutes from './routes/postRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({limit:'30mb',extended:true}))
 app.use(cors())
 
 app.use('/posts', postRoutes)
-
+app.use('/user', userRoutes)
 const mongoURI=process.env.MONGO_DB_CODE || '';
 const PORT=process.env.PORT || 5000;
 
