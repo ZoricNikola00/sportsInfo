@@ -11,7 +11,7 @@ const Post = ({_id,name,createdAt,file,info,likes,tags,title}:postDataType) => {
         <div className='w-full h-[50%] relative'>
             <img className='w-full h-full object-cover' src={file}/>
             <div className='absolute top-2 w-full px-4 text-white z-20 text-xl flex justify-between items-center'>
-                <h1>Name</h1>
+                <Link to={`/creator/${name}`} className='hover:text-gray-300'>{name}</Link>
                 <FaEllipsisH/>
             </div>
             <p className='absolute top-10 px-4 text-white text-sm z-20'>{moment(createdAt).fromNow()}</p>
