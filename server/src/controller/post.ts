@@ -18,10 +18,7 @@ export const getPosts=async(req:Request,res:Response)=>{
 
 export const addPost=async(req:Request,res:Response)=>{
     const data=req.body
-    console.log(req.userId);
     const newData=new PostInfo({...data, creator:req.userId,createdAt:new Date().toISOString()})
-    console.log(newData);
-
     try{
         await newData.save()
         res.status(201).json(newData)
@@ -85,5 +82,15 @@ export const editPost=async(req:Request,res:Response)=>{
     const {id}=req.params
     if(!mongoose.Types.ObjectId.isValid(id)) res.status(404).send('No post with that ID')
     const updatedPost=await PostInfo.findByIdAndUpdate(id,data,{new:true})
+    res.json(updatedPost)
+}
+
+export const commentPost=async(req:Request,res:Response)=>{
+    const {id}=req.params
+    const {comment}=req.body
+    const post=await PostInfo.findById(id)
+    post?.comments.push(comment)
+    const updatedPost=await PostInfo.findByIdAndUpdate(id,{...post},{new:true})
+    console.log(updatedPost);
     res.json(updatedPost)
 }
