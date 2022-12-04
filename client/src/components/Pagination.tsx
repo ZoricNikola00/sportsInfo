@@ -7,7 +7,7 @@ type data={
 }
 
 const Pagination = ({page}:data) => {
-    const {state,getPosts,dispatch}=useGlobalContext()
+    const {state,getPosts,dispatch,setEditId}=useGlobalContext()
     const nav=useNavigate()
     const pages=[]
     for(let i=1;i<=state?.numberOfPages;i++){
@@ -15,6 +15,8 @@ const Pagination = ({page}:data) => {
     }
     useEffect(()=>{
         getPosts(page)
+        setEditId('')
+
     },[dispatch,page])
 
   return (
