@@ -35,3 +35,13 @@ export const searchPost=async(req:Request,res:Response)=>{
     }catch(err){res.status(404).json(err)}
     
 }
+
+export const searchCreator=async(req:Request,res:Response)=>{
+    const {name}=req.query
+    try{
+        const posts=await PostInfo.find({name})
+        res.json(posts)
+    }catch(err){
+        res.status(404).json(err)
+    }
+}
