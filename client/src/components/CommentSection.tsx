@@ -1,15 +1,18 @@
 import {useState} from 'react'
+import { useGlobalContext } from '../context'
 type CommentType={
     id:string|undefined,
     comments:string[] | undefined
 }
 const CommentSection = ({id,comments}:CommentType) => {
     const [comment,setComment]=useState('')
+    const {commentPost}=useGlobalContext()
     const user=JSON.parse(localStorage.getItem('profile') || '{}') 
-
+    
     const handleSubmit=(e:React.FormEvent)=>{
         e.preventDefault()
-
+        commentPost(id,`${user?.result?.name} : ${comment}`)
+        setComment('')
     }
   return (
     <div className='w-full rounded my-4 flex justify-between cShadow bg-slate-100 p-4'>
