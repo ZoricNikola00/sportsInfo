@@ -2,15 +2,14 @@ import {useState} from 'react'
 import { Link } from 'react-router-dom'
 import { FaSearch, FaBars } from 'react-icons/fa'
 import Search from './Search'
+import { useGlobalContext } from '../context'
 
 
-const SearchBtn=()=>{
-    return <FaSearch className='text-4xl mr-4 w-[50px] py-1 hover:border-b-[2px] hover:border-blue-500 cursor-pointer transition-all hover:text-blue-300'/>
-}
-const user=false
 const Navbar = () => {
+    const {signOut}=useGlobalContext()
     const [searchModal,setSearchModal]=useState(false)
     const [sidebar, setSidebar]=useState(false)
+    const user=JSON.parse(localStorage.getItem('profile') ||'{}')
 
 
     window.addEventListener('click',(e:any)=>{
@@ -27,12 +26,12 @@ const Navbar = () => {
         <div>
             <Link to='/'><h1 className='text-4xl'>SportsInfo</h1></Link>
         </div>
-        {user?
+        {user.token?
         <div className='hidden md:flex items-center h-full'>
             <FaSearch className='searchBtn' onClick={_=>setSearchModal(true)} />
-            <img alt='photo' className='rounded-xl h-[50px]'/>
-            <h1 className='mx-4 text-lg text-black'>Name</h1>
-            <Link to='/' className='bg-red-500 hover:bg-white text-white hover:text-red-500 transition-colors p-2 rounded font-bold cursor-pointer'>
+            <img src={user?.result?.imageUrl} className='rounded-xl h-[50px]'/>
+            <h1 className='mx-4 text-lg text-black'>{user?.result?.name}</h1>
+            <Link to='/' onClick={signOut} className='bg-red-500 hover:bg-white text-white hover:text-red-500 transition-colors p-2 rounded font-bold cursor-pointer'>
                 Logout
             </Link>
         </div>
@@ -50,7 +49,7 @@ const Navbar = () => {
             <div className={`flex flex-col fixed top-0 left-0 w-[200px] h-full bg-white transition-all transiton-500 ${sidebar?'translate-x-0 z-30':'translate-x-[-100%] -z-30'}`}>
             {user?
             <div className='flex items-center flex-col h-full'>
-                <img alt='photo' className='rounded-xl h-[50px]'/>
+                <img src={user?.result?.imageUrl} className='rounded-xl h-[50px]'/>
                 <h1 className='mx-4 text-lg text-black'>Name</h1>
                 <Link to='/' className='bg-red-500 hover:bg-white text-white hover:text-red-500 transition-colors p-2 rounded font-bold cursor-pointer'>
                     Logout
