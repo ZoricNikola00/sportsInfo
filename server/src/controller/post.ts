@@ -45,3 +45,12 @@ export const searchCreator=async(req:Request,res:Response)=>{
         res.status(404).json(err)
     }
 }
+
+export const getPost=async(req:Request,res:Response)=>{
+    const {id}=req.params
+    try{
+        const singlePost=await PostInfo.findById(id)
+        res.status(200).json(singlePost)
+    }catch(err){console.log(res.status(404).json({message:err}));
+    }
+}
