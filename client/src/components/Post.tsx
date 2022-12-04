@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { FaEllipsisH, FaRegThumbsUp, FaThumbsUp } from 'react-icons/fa'
 import moment from 'moment'
 
-const Post = ({_id,name,createdAt,file,info,likes,tags,title}:postDataType) => {
-    const {likePost}=useGlobalContext()
+const Post = ({_id,name,createdAt,file,info,likes,tags,title,creator}:postDataType) => {
+    const {likePost,setFormComponent,setEditId}=useGlobalContext()
     const user=JSON.parse(localStorage.getItem('profile') ||'{}')
     const userId=user?.result?.googleId||user?.result?._id
     const userLikedPost=likes?.find(x=>x===userId)
@@ -15,7 +15,7 @@ const Post = ({_id,name,createdAt,file,info,likes,tags,title}:postDataType) => {
             <img className='w-full h-full object-cover' src={file}/>
             <div className='absolute top-2 w-full px-4 text-white z-20 text-xl flex justify-between items-center'>
                 <Link to={`/creator/${name}`} className='hover:text-gray-300'>{name}</Link>
-                <FaEllipsisH/>
+                {userId===creator && <FaEllipsisH onClick={_=>{setEditId(_id || '');setFormComponent(true)}}/>}
             </div>
             <p className='absolute top-10 px-4 text-white text-sm z-20'>{moment(createdAt).fromNow()}</p>
             <div className='absolute bg-black/60 top-0 left-0 w-full h-full'></div>
