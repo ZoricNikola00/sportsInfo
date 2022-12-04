@@ -62,6 +62,8 @@ const AppContext=createContext<{
     editPost:(i:string|undefined, d:postDataType)=>Promise<void>,
     editId:string,
     setEditId:React.Dispatch<React.SetStateAction<(string)>>,
+    commentPost:(i:string|undefined, c:string)=>Promise<void>,
+
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -81,6 +83,7 @@ const AppContext=createContext<{
     editPost:async()=>{},
     editId:'',
     setEditId:()=>{},
+    commentPost:async()=>{}
 })
 
 export const AppProvider:FC<any>=props=>{
@@ -158,6 +161,13 @@ export const AppProvider:FC<any>=props=>{
         }catch(err){console.log(err);
         }
     }
+    const commentPost=async(id:string|undefined,comment:string)=>{
+        try{
+            const {data}=await api.commentPost(id,comment)
+            dispatch({type:"COMMENT",payload:data})
+        }catch(err){console.log(err);
+        }
+    }
     const signIn=async(userData:userData)=>{
         try{
             const {data}=await api.signIn(userData)
@@ -187,7 +197,7 @@ export const AppProvider:FC<any>=props=>{
     const signOut=()=>{
         dispatch({type:'SIGN_OUT'})
     }
-    return <AppContext.Provider value={{editId,setEditId,editPost,likePost,deletePost,getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{commentPost,editId,setEditId,editPost,likePost,deletePost,getPost,getPostsOfCreator,searchPost,dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
