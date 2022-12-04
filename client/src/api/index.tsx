@@ -18,7 +18,7 @@ export const getPost=(id:string|undefined)=>API.get(`/posts/${id}`)
 export const deletePost=(id:string|undefined)=>API.delete(`/posts/${id}`)
 export const likePost=(id:string|undefined)=>API.patch(`/posts/${id}/like`)
 export const editPost=(id:string|undefined, data:postDataType)=>API.patch(`/posts/${id}`, data)
-
+export const commentPost=(id:string|undefined,comment:string)=>API.post(`/posts/${id}/commentPost`, {comment})
 
 export const signIn=(data:userData)=>API.post('/user/signin', data)
 export const signUp=(data:userData)=>API.post('/user/signup', data)
