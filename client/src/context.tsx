@@ -49,6 +49,7 @@ const AppContext=createContext<{
     signUp:(d:userData)=>Promise<void>,
     signOut:()=>void,
     googleSuccess:(r:any)=>Promise<void>,
+    dispatch:any,
 }>({
     state:initialState,
     getPosts:async()=>{},
@@ -59,6 +60,7 @@ const AppContext=createContext<{
     signUp:async()=>{},
     signOut:()=>{},
     googleSuccess:async()=>{},
+    dispatch:()=>{}
 })
 
 export const AppProvider:FC<any>=props=>{
@@ -115,7 +117,7 @@ export const AppProvider:FC<any>=props=>{
     const signOut=()=>{
         dispatch({type:'SIGN_OUT'})
     }
-    return <AppContext.Provider value={{signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
+    return <AppContext.Provider value={{dispatch,signOut,googleSuccess,signIn,signUp,addPost,formComponent,setFormComponent,state,getPosts}}>{props.children}</AppContext.Provider>
 }
 
 export const useGlobalContext=()=>{
