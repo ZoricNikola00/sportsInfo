@@ -21,7 +21,9 @@ const Navbar = () => {
   return (
     <nav className="w-[95%] md:w-[80%] text-blue-500 font-bold italic flex items-center justify-between p-4 rounded mx-auto my-4 bg-slate-100 cShadow">
         <div data-attribute='modal' className={`flex justify-center items-center fixed top-0 left-0 w-full h-full text-black bg-blue-600/90 transition-all transition-500 ${searchModal?'opacity-100 z-30':'opacity-0 -z-30'}`}>
-            <Search/>
+            <div className={`w-[500px] mx-auto bg-slate-100 rounded-lg my-4 cShadow p-4 transition-all transition-500 ${searchModal?'opacity-100':'opacity-0'}`}>
+                <Search setSearchModal={setSearchModal}/>
+            </div>
         </div>
         <div>
             <Link to='/'><h1 className='text-4xl'>SportsInfo</h1></Link>
