@@ -3,6 +3,7 @@ import {useEffect} from 'react'
 import { useGlobalContext } from '../context';
 import Form from '../components/Form';
 import Posts from '../components/Posts';
+import Pagination from '../components/Pagination';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -11,12 +12,8 @@ function useQuery() {
 const Home = () => {
   const query=useQuery()
   const page=query.get('page') || 1;
-  const {getPosts,state,setFormComponent,formComponent}=useGlobalContext()
- useEffect(()=>{
-  getPosts(page)
- },[page]
- )
- console.log(state);
+  const {setFormComponent,formComponent}=useGlobalContext()
+
 
   return (
     <div className='w-[90%] md:w-[70%] flex flex-col mx-auto my-4'>
@@ -27,6 +24,7 @@ const Home = () => {
       <Form/>:
       <>
         <Posts/>
+        <Pagination page={page}/>
       </>
       }
     </div>
