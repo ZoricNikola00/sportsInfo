@@ -17,6 +17,6 @@ const Schema= new mongoose.Schema({
     }
 })
 
-const PostInfo=mongoose.model('PostInfo', Schema)
+const PostInfo=mongoose.model('PostContent', Schema)
 
 export default PostInfo
