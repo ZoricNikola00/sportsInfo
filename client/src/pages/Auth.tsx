@@ -2,10 +2,11 @@ import {FaEye, FaGoogle} from 'react-icons/fa'
 import React, {useState,useEffect} from 'react'
 import {GoogleLogin} from 'react-google-login'
 import { useGlobalContext } from '../context'
+import { gapi } from 'gapi-script'
 
 const Auth = () => {
   const [signedUp,setSignedUp]=useState(true)
-  const {signIn,signUp}=useGlobalContext()
+  const {signIn,signUp,googleSuccess}=useGlobalContext()
   const [showPassword,setShowPassword]=useState(false)
   const [formData,setFormData]=useState({firstName:'', lastName:'', password:'', confirmPassword:'', email:''})
   const styleEye='absolute top-[50%] translate-y-[-50%] text-gray-300 cursor-pointer hover:text-gray-500 right-5'
@@ -25,12 +26,20 @@ const Auth = () => {
     setFormData(p=>({...p,[value]:e.target.value}))
   }
 
-  const googleSuccess=async()=>{
+  const googleFail=(err:FormDataEvent)=>{
+    console.log(err);
+    console.log("Google Sign In Failed!");
 
   }
-  const googleFail=()=>{
-
-  }
+  useEffect(()=>{
+    const initClient=()=>{
+      gapi.client.init({
+        clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        scope:''
+      })
+    }
+    gapi.load('client:auth2', initClient)
+  })
   return (
     <div className='w-[90%] md:w-[80%] mx-auto'>
       <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center w-[300px] md:w-[400px] mx-auto bg-slate-100 cShadow rounded-lg p-4'>
@@ -70,7 +79,7 @@ const Auth = () => {
           render={(props)=><button onClick={props.onClick} disabled={props.disabled} className='cBtn flex items-center justify-center cursor-pointer'><FaGoogle className='mr-1'/>Sign In With Google</button>}
           onSuccess={googleSuccess}
           onFailure={googleFail}
-          cookiePolicy='single_host_origin'
+          cookiePolicy={'single_host_origin'}
         />
           <p className='w-full text-sm text-gray-600'>{!signedUp? 'Already have an account?':"Don't have an account?"}<span onClick={_=>setSignedUp(p=>!p)} className='ml-2 cursor-pointer hover:text-gray-400 text-base'>{signedUp?'Sign In':'Sign Up'}</span></p>
       </form>
