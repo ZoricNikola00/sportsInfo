@@ -9,5 +9,8 @@ export const reducer = (state:any,action:any)=>{
             return {...state, loading:false}
         case "ADD_POST":
             return {...state, posts:[...state.posts,action.payload]}
+        case "AUTH":
+            localStorage.setItem('profile', JSON.stringify({...action.payload}))
+            return {...state, auth:action?.payload}
     }
 }
