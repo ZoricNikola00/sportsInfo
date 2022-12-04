@@ -11,7 +11,7 @@ const Posts = () => {
      }
   return (
     <div className='flex flex-wrap my-4 justify-evenly w-full'>
-        {state.posts?.map((post:postDataType)=>{
+        {state?.posts?.map((post:postDataType)=>{
             return <Post key={post._id} {...post}/>
         })}
     </div>
