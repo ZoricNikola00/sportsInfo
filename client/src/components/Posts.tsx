@@ -1,5 +1,6 @@
 import React from 'react'
 import { postDataType, useGlobalContext } from '../context'
+import Post from './Post'
 
 const Posts = () => {
     const {state}=useGlobalContext()
@@ -7,7 +8,7 @@ const Posts = () => {
   return (
     <div className='flex flex-wrap my-4 justify-evenly w-full'>
         {state.posts?.map((post:postDataType)=>{
-            return <div key={post._id}>{post.title}</div>
+            return <Post key={post._id} {...post}/>
         })}
     </div>
   )
