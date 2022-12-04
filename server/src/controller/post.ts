@@ -18,7 +18,9 @@ export const getPosts=async(req:Request,res:Response)=>{
 
 export const addPost=async(req:Request,res:Response)=>{
     const data=req.body
+    console.log(req.userId);
     const newData=new PostInfo({...data, creator:req.userId,createdAt:new Date().toISOString()})
+    console.log(newData);
 
     try{
         await newData.save()
@@ -67,8 +69,13 @@ export const likePost=async(req:Request,res:Response)=>{
     
     index===-1 ? newLikes?.push(String(req.userId)):newLikes=newLikes?.filter(id=>id!==String(req.userId))
     
-    console.log(post);
-    
     const updatedPost=await PostInfo.findByIdAndUpdate(id,{likes:newLikes},{new:true})
     res.json(updatedPost)
+}
+
+export const deletePost=async(req:Request,res:Response)=>{
+    const {id}=req.params
+    if(!mongoose.Types.ObjectId.isValid(id)) res.status(404).send('No post with that ID')
+    await PostInfo.findByIdAndDelete(id)
+    res.json({message:'Successful delete!'})
 }
