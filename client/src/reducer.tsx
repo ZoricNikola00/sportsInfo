@@ -12,5 +12,8 @@ export const reducer = (state:any,action:any)=>{
         case "AUTH":
             localStorage.setItem('profile', JSON.stringify({...action.payload}))
             return {...state, auth:action?.payload}
+        case "SIGN_OUT":
+            localStorage.clear()
+            return {...state, auth:null}
     }
 }
