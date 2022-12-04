@@ -2,6 +2,7 @@ import {useEffect,useState} from 'react'
 import { FaRegThumbsUp, FaThumbsUp, FaTrash } from 'react-icons/fa'
 import { useParams, useNavigate, Link} from 'react-router-dom'
 import { useGlobalContext } from '../context'
+import { DotLoader } from 'react-spinners'
 
 const DetailsPage = () => {
     const {id}=useParams()
@@ -15,7 +16,9 @@ const DetailsPage = () => {
     useEffect(()=>{
         getPost(id)
     },[id])
-    
+    if(state.loading){
+        return <DotLoader color='rgb(59 130 246)' className=' w-full mx-auto my-24'>LOADING!!!!</DotLoader>
+       }
   return (
     <div className='w-[95%] md:w-[80%] mx-auto'>
         {modalDelete && <div className='fixed flex justify-center items-center w-full h-full bg-black/60 top-0 left-0'>
