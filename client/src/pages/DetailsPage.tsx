@@ -3,6 +3,7 @@ import { FaRegThumbsUp, FaThumbsUp, FaTrash } from 'react-icons/fa'
 import { useParams, useNavigate, Link} from 'react-router-dom'
 import { useGlobalContext } from '../context'
 import { DotLoader } from 'react-spinners'
+import CommentSection from '../components/CommentSection'
 
 const DetailsPage = () => {
     const {id}=useParams()
@@ -40,7 +41,7 @@ const DetailsPage = () => {
                     {userId===state.post?.creator && <FaTrash onClick={_=>setModalDelete(true)} className='text-red-500 cursor-pointer'/>}
                 </div>
             </div>
-
+            <CommentSection id={id} comments={state?.post?.comments}/>
         </div>
     </div>
   )
