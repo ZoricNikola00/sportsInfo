@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import PostInfo from "../models/postsModel.js";
 import {Request,Response} from 'express'
 
-
 export const getPosts=async(req:Request,res:Response)=>{
     const {page}=req.query
 
@@ -25,4 +24,14 @@ export const addPost=async(req:Request,res:Response)=>{
         await newData.save()
         res.status(201).json(newData)
     }catch(err){res.status(409).json(err)}
+}
+
+export const searchPost=async(req:Request,res:Response)=>{
+    const {searchQuery,tags}=req.query
+    try{
+        const title= new RegExp(searchQuery as string,'i');
+        const posts= await PostInfo.find({$or:[{title}, {tags:{$in:(tags as string).split(' ')}}]})
+        res.json(posts)
+    }catch(err){res.status(404).json(err)}
+    
 }
