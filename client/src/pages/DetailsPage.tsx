@@ -30,7 +30,7 @@ const DetailsPage = () => {
                 </div>
             </div>}
         <div className='w-full rounded my-4 cShadow bg-slate-100 p-4 flex justify-between flex-col md:flex-row'>
-            <img className='w-full md:w-[40%] rounde-lg object-cover' src={state.post?.file}/>
+            <img className='w-full md:w-[40%] rounded-lg object-cover' src={state.post?.file}/>
             <div className='w-full md:w-[50%]'>
                 <h1 className='text-4xl'>{state.post?.title}</h1>
                 <div className='flex items center my-2 text-gray-500'>{state.post?.tags?.map((tag,i)=><Link to={`/tags/${tag}`} className='mx-[1px] hover:text-gray-700' key={i}><span className='text-sm'>#</span>{tag}</Link>)}</div>
